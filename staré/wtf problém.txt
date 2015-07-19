@@ -1,0 +1,61 @@
+Ahoj!
+
+narazil jsi na casty neintuitivni problem novacku v programovani. Jde o to, ze kdyz jsi napsal b=a, tak jsi jen predal *referenci* z a do b. Trochu to tu rozvedu.
+
+a = 5
+b = a
+b += 1
+print(a) # vypise 5
+
+Tady to funguje, jak bys ocekaval. int(5) se zkopiruje do "b", pak je to samostatna promenna. Je to proto, ze fundamentalni typy (int, float, bool atd.) se automaticky kopiruji.
+
+a=[0]
+b=a
+b[0]+=1
+print(a)
+print(b)
+
+Tady v "a" uz fundamentalni typ neni. Vsechny ostatni typy (objekty - takze treba list, dict, set a vsechno ostatni) jen predavaji reference. "b" tu ukazuje porad na stejne misto v pameti, na stejna data jako "a". Ma to ruzne vyhody. Napriklad to nezabira skoro zadnou pamet (kdyby se ten list zkopirovat a zabiral treba 1GB, pak bys mel v pameti 2GB, takhle mas ale jen 2 reference porad na tu samou pamet). Je to takhle taky proto, ze casto presne tohle chovani chces (kdyz ho ocekavas). V objektove orientovanem programovani casto nechces cely objekt kopirovat, ale pracovat jen s referenci. S timhle taky jde delat funkce, ktere pracuji tzv. "in place". Priklad:
+
+def pricti1(l):
+    for i in range(len(l)):
+        l[i] += 1 # vsimni si, ze funkce nema zadny return
+
+a = [1, 2, 3]
+pricti1(a)
+print(a) # vypise [2, 3, 4]
+
+Mozna neni na prvni pohled uplne zrejme, proc to takhle delat (a moc to nedoporucuju, standarne funkce normalne vraci returnem), ale v objektove orientovanem programovani se tohle chovani dost hodi. Casto chces treba jen zjistit nejake informace o argumentu (treba delku listu) a nechces v nem nic menit - je lepsi predat referenci, protoze kopirovat by stalo pamet a procesor. Ve standardnim balicku random napriklad funkce random.shuffle funguje "in place", prave kvuli te pameti:
+
+import random
+
+a = [1, 2, 3]
+random.shuffle(a)
+print(a) # vypise treba [2, 1, 3]
+
+No a jak teda ty reference zkopirovat? S funkci copy z balickou copy - prepisu ten prvni priklad tak, aby funkce returnovala a nebyla tedy "in place":
+
+from copy import copy
+
+def pricti1(arg_l):
+    l = copy(arg_l)
+    for i in range(len(l)):
+        l[i] += 1
+    return l # ted uz tu musime dat return
+
+a = [1, 2, 3]
+pricti1(a)
+print(a) # vypise [1, 2, 3] - nic se nezmeni
+a = pricti1(a)
+print(a) # vypise [2, 3, 4]
+
+Listy jde take kopirovat kratce tzv. slicingem. O tom uz jsi mohl slyset - napr a[:3] vrati prvni tri prvky listu, a[-3:] posledni tri. No a kdyz napises a[:], tak to vrati cely list, ale zkopirovany. Ukazu na tom tvym prikladu:
+
+a=[0]
+b=a[:] # zkopirujeme a
+b[0]+=1
+print(a) # vypise [0]
+print(b) # vypise [1]
+
+Puf, tak snad to dava smysl. Nejdriv jsem si taky myslel, ze je to uplne divny, ale je to vlastne dost dobry :)
+Matej
