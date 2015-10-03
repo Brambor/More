@@ -3,68 +3,62 @@ if input("Něco napiš, jestli chceš komentář.\n") != "":
         print(a)
 else:
     def Print(a):
-        str()
+        pass
 
-priklad=input("Zadej příklad.\n")
-priklad=list(priklad)
+priklad = input("Zadej příklad.\n")
+priklad = list(priklad)
 Print(priklad)
-for i in range(len(priklad)): #("7"," ","+","5"," ","2")->("7","+","5","2")
-    if i<len(priklad):
-        while priklad[i]==" ":
-            del priklad[i]
-Print("bez mezer")
+
+while " " in priklad:
+    del priklad[priklad.index(" ")]
+Print("\nbez mezer")
 Print(priklad)
+
 for i in range(len(priklad)): #("5","+","5",".","3") -> (5,"+",5,".",3)
     if priklad[i].isdigit():
-        priklad[i]=int(priklad[i])
-Print("str>int")
+        priklad[i] = int(priklad[i])
+Print("\nstr->int")
 Print(priklad)
-while True: #(7,"+",5,3,5,".",3) ->(7,"+",53,5,".",3)
-    a=len(priklad)
-    for i in range(len(priklad)):
-        if i+1 < len(priklad):
-            if type(priklad[i])==type(1) and type(priklad[i+1])==type(1):
-                priklad[i]=int(str(priklad[i])+str(priklad[i+1]))
-                del priklad[i+1]
-                break
-    if len(priklad)==a:
-        break
-Print("spojení čísel")
+
+Len = len(priklad)
+i = 0
+while i+1 < Len: #(7,"+",5,3,5,".",3) ->(7,"+",53,5,".",3)
+    while (type(priklad[i]) == type(0) and type(priklad[i+1]) == type(0)) and i+1 < Len:
+        priklad[i] = int(str(priklad[i]) + str(priklad[i+1]))
+        del priklad[i+1]
+        Len -= 1
+    i += 1
+Print("\nspojení čísel")
 Print(priklad)
-while True: # udělá float
-    a=len(priklad)
-    for i in range(len(priklad)):
-        if i+2 < len(priklad):
-            if type(priklad[i])==type(1) and priklad[i+1]=="." and type(priklad[i+2])==type(1):
-                priklad[i]=float(str(priklad[i])+"."+str(priklad[i+2]))
-                del priklad[i+1]
-                del priklad[i+1]
-                break
-    if len(priklad)==a:
-        break
-Print("spojení float")
+
+Len = len(priklad)
+i = 0
+while i+3 < Len: # udělá float
+    if type(priklad[i]) == type(0) and priklad[i+1] in [".", ","] and type(priklad[i+2]) == type(0):
+        priklad[i] = float(str(priklad[i]) + "." + str(priklad[i+2]))
+        del priklad[i+1]
+        del priklad[i+1]
+    i += 1
+Print("\nspojení float")
 Print(priklad)
 Print("")
 
-c=0
+c = 0
 if "(" in priklad:
-        c=priklad.count("(")
+        c = priklad.count("(")
         for i in range(c):
-            priklad[priklad.index("(")]=str(c-i)
-        for i in range(c):
-            priklad[priklad.index(")")]=str(i+1)
+            priklad[priklad.index("(")] = str(c-i)
+            priklad[priklad.index(")")] = str(i+1)
 Print(priklad)
 
-def vypocet(priklad,c):
+def vypocet(priklad, c):
 #    Print(priklad)
-    if c>0:
-        u1=priklad.index(str(c))
+    if c > 0:
+        u1 = priklad.index(str(c))
         del priklad[priklad.index(str(c))]
-        u2=priklad.index(str(c))+2
+        u2 = priklad.index(str(c)) + 2
         del priklad[priklad.index(str(c))]
-        pzbytek=[]
-        zzbytek=[]
-        zbytek=[]
+        pzbytek, zzbytek, zbytek = [[]]*3
         for i in range(len(priklad)):
             if i < u1:
                 pzbytek.append(priklad[i])
@@ -72,52 +66,50 @@ def vypocet(priklad,c):
                 zbytek.append(priklad[i])
             else:
                 zzbytek.append(priklad[i])
-        c-=1
-        zbytek=vypocet(zbytek,c)
-        priklad=[]
-        for i in pzbytek:
-            priklad.append(i)
-        for i in zbytek:
-            priklad.append(i)
-        for i in zzbytek:
-            priklad.append(i)
+        c -= 1
+        zbytek = vypocet(zbytek, c)
+        priklad = []
+        priklad.extend(pzbytek)
+        priklad.extend(zbytek)
+        priklad.extend(zzbytek)
     if "^" in priklad:
-        p=priklad.count("^")
+        p = priklad.count("^")
         for i in range(p):
-            u=priklad.index("^")
-            priklad[u-1]**=priklad[u+1]
+            u = priklad.index("^")
+            priklad[u-1] **= priklad[u+1]
             del priklad[u]
             del priklad[u]
     if "/" in priklad:
-        p=priklad.count("/")
+        p = priklad.count("/")
         for i in range(p):
-            u=priklad.index("/")
-            priklad[u-1]/=priklad[u+1]
+            u = priklad.index("/")
+            priklad[u-1] /= priklad[u+1]
             del priklad[u]
             del priklad[u]
     if "*" in priklad:
-        p=priklad.count("*")
+        p = priklad.count("*")
         for i in range(p):
-            u=priklad.index("*")
-            priklad[u-1]*=priklad[u+1]
+            u = priklad.index("*")
+            priklad[u-1] *= priklad[u+1]
             del priklad[u]
             del priklad[u]
     if "-" in priklad:
-        p=priklad.count("-")
+        p = priklad.count("-")
         for i in range(p):
-            u=priklad.index("-")
-            priklad[u-1]-=priklad[u+1]
+            u = priklad.index("-")
+            priklad[u-1] -= priklad[u+1]
             del priklad[u]
             del priklad[u]
     if "+" in priklad:
-        p=priklad.count("+")
+        p = priklad.count("+")
         for i in range(p):
-            u=priklad.index("+")
-            priklad[u-1]+=priklad[u+1]
+            u = priklad.index("+")
+            priklad[u-1] += priklad[u+1]
             del priklad[u]
             del priklad[u]
     return(priklad)
 
-priklad=vypocet(priklad,c)
-print(priklad[0])
+priklad = vypocet(priklad, c)
+print()
+input(priklad[0])
 #(22*51+(60   - 25)/6.5)^6
