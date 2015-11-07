@@ -1,8 +1,8 @@
 if input("Něco napiš, jestli chceš komentář.\n") != "":
-    def Print(a):
+    def Print(a = ""):
         print(a)
 else:
-    def Print(a):
+    def Print(a = ""):
         pass
 
 priklad = input("Zadej příklad.\n")
@@ -23,7 +23,7 @@ Print(priklad)
 Len = len(priklad)
 i = 0
 while i+1 < Len: #(7,"+",5,3,5,".",3) ->(7,"+",53,5,".",3)
-    while (type(priklad[i]) == type(0) and type(priklad[i+1]) == type(0)) and i+1 < Len:
+    while i+1 < Len and (type(priklad[i]) == type(0) == type(priklad[i+1])):
         priklad[i] = int(str(priklad[i]) + str(priklad[i+1]))
         del priklad[i+1]
         Len -= 1
@@ -41,7 +41,7 @@ while i+3 < Len: # udělá float
     i += 1
 Print("\nspojení float")
 Print(priklad)
-Print("")
+Print()
 
 c = 0
 if "(" in priklad:
@@ -55,9 +55,9 @@ def vypocet(priklad, c):
 #    Print(priklad)
     if c > 0:
         u1 = priklad.index(str(c))
-        del priklad[priklad.index(str(c))]
+        del priklad[u1]
         u2 = priklad.index(str(c)) + 2
-        del priklad[priklad.index(str(c))]
+        del priklad[u2 - 2]
         pzbytek, zzbytek, zbytek = [[]]*3
         for i in range(len(priklad)):
             if i < u1:
@@ -111,5 +111,7 @@ def vypocet(priklad, c):
 
 priklad = vypocet(priklad, c)
 print()
-input(priklad[0])
+if len(priklad) > 0:
+    print(priklad[0])
+input()
 #(22*51+(60   - 25)/6.5)^6
