@@ -1,0 +1,11 @@
+Takhle to bude fungovat:
+1)nastavit vše na nulu, první strana
+2)začít
+3)try s první stranou
+    1-připojit ke straně
+    1.1-proměnné
+    2-uložit
+    2.1-promněnné
+    3-nastavit parametry na další stranu
+    3.1-tzn. splitnout stranu, zjistit odkaz k dalšímu obrázku a k další straně!!!
+4)except: "Má to formát poslední strany?"
