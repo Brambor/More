@@ -11,16 +11,25 @@ celkem = 0
 start = time.time()
 doeswork = False
 
-path = "C:\Documents and Settings\Administrator\Plocha\Tonda\MGX3 right"
-fs = [f for f in listdir(path)]
+path = "E:/MGX" #"C:\\Users\\Tonda_2\\Desktop\\harddisk\\MGX"
+fs = [f for f in listdir("{}\\{}".format(path, "MGX pics"))]
 ef = []
-for i in range(len(fs)-1):
-	f1 = open("{}\{}".format(path, fs[i]), "rb")
-	f2 = open("{}\{}".format(path, fs[i + 1]), "rb")
-	if list(f1) == list(f2):
-		print(fs[i + 1])
-		ef.append(fs[i + 1])
+allpic = []
 
+for f in fs:
+	new = open("{}\\{}".format("{}\\{}".format(path, "MGX pics"), f), "rb").read()
+	allpic.append(new)
+	print(f)
+
+for i in range(len(allpic)):
+	print(fs[i])
+	for i2 in range(1, len(allpic) - i):  #value_when_true if condition else value_when_false #1, 5 if len(allpic) - i > 5 else len(allpic) - i
+		if allpic[i] == allpic[i + i2]:
+			print("{} is the same as {}".format(fs[i + i2], fs[i]))
+			ef.append(fs[i + i2])
+
+ef = ["49008.jpg"]
+print(ef)
 
 for f in ef:
 	ted = time.time()
@@ -49,7 +58,7 @@ for f in ef:
 			doeswork = True
 		except:
 			doeswork = False
-			errorlog = open("C:\Documents and Settings\Administrator\Plocha\Tonda\errorlog MGX3.txt", "a")
+			errorlog = open("{}\\{}".format(path, "errorlog MGX3.txt"), "a")
 		#save
 		#chap does not need to be edited every ep, only every chap
 		
@@ -62,7 +71,7 @@ for f in ef:
 		petinazev = (mychap + (2 - len(ep))*"0" + ep)
 		print("Does work:{}".format(doeswork))
 		if doeswork:
-			myfile = open("{}\{}.jpg".format("C:\Documents and Settings\Administrator\Plocha\Tonda\MGX3", petinazev), "wb")
+			myfile = open("{}\{}.jpg".format("{}\\{}".format(path, "MGX pics"), petinazev), "wb")
 			myfile.write(obr)
 			myfile.close()
 	doeswork = False

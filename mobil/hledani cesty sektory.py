@@ -22,8 +22,11 @@ class Map():
         self.done, self.znaky = False, ["A"]
         self.q = queue.Queue()
         self.index = 0
-    def show(self):
-        pole = copy.copy(self.pole)    
+    def show(self, X = False):##
+        if X: ##
+            pole = copy.copy(self.cpole)
+        else:
+            pole = copy.copy(self.pole)    
         for i in range(len(pole)):
             pole[i] = "".join(pole[i])
         print("\n".join(pole))
@@ -54,8 +57,10 @@ class Map():
         place = self.pole[y][x]
         if place == self.znaky[self.destin - 1]:
             self.pole[y][x] = "X"
+            self.cpole[y][x] = "X" ##
             self.destin, self.destx, self.desty = self.destin - 1, x, y
-
+    def addthing(self, obj):
+        self.cpole = obj
     def  into_sector(self, x, y):
         pass
     def sector(self, x, y):
@@ -78,12 +83,13 @@ class Map():
 
     #patcs?
 
-mapa = Map(20, 11)
+mapa = Map(79, 77)
 
 #kameny a body
-kameny = randint(int(mapa.x*mapa.y/20), int(mapa.x*mapa.y/2))
-for i in range(kameny):
-    mapa.pole[randint(0, mapa.y-1)][randint(0, mapa.x-1)] = "@"
+#kameny = randint(int(mapa.x*mapa.y/20), int(mapa.x*mapa.y/2))
+#for i in range(kameny):
+#    mapa.pole[randint(0, mapa.y-1)][randint(0, mapa.x-1)] = "@"
+
 mapa.pole.append(["@"]*mapa.x)
 mapa.pole.insert(0, ["@"]*mapa.x)
 mapa.x, mapa.y = mapa.x + 2, mapa.y + 2
@@ -100,6 +106,9 @@ while True:
         mapa.pole[a][b] = "B"
         break
 
+mapa.addthing(copy.deepcopy(mapa.pole))
+
+
 #znaky k hledání
 mapa.znaky.extend(list(string.ascii_lowercase))
 for i in range(mapa.x*mapa.y):
@@ -113,7 +122,7 @@ if mapa.done:
     print(mapa.searchback())
 else:
     print("Runrand")
-mapa.show()
+mapa.show(X = True)
 print(mapa.destx, mapa.desty)
 
 input()
