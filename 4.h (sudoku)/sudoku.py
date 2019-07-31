@@ -44,7 +44,7 @@ while len(vse)>0:
 
 # 'ven' are all solutions
 # ven = ven*60
-sudoku_per_row = (get_terminal_size()[0]+1) // 10
+sudoku_per_row = (get_terminal_size().lines + 1) // 10
 #sudoku_per_row = 28
 for i in range(0, len(ven), sudoku_per_row):
     # number the sudoku (one line)
