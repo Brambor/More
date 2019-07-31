@@ -1,5 +1,4 @@
-def ctverec(i,i2):
-    velky,maly=i,i2
+def ctverec(velky,maly):
     x,y=[0]*2
     if velky < 3:
         x+=3*velky
