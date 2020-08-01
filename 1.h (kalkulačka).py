@@ -58,7 +58,7 @@ def vypocet(priklad, c):
         del priklad[u1]
         u2 = priklad.index(str(c)) + 2
         del priklad[u2 - 2]
-        pzbytek, zzbytek, zbytek = [[]]*3
+        pzbytek, zzbytek, zbytek = [], [], []
         for i in range(len(priklad)):
             if i < u1:
                 pzbytek.append(priklad[i])
